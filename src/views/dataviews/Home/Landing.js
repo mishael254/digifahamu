@@ -68,11 +68,11 @@ function Landing () {
                   <Row>
                     <Col lg="6">
                       <h1 className="display-3 text-white">
-                        Digitunza Learning System{" "}
+                        Digifahamu Learning System{" "}
                         <span>Explore, Learn and Listen</span>
                       </h1>
                       <p className="lead text-white">
-                        Unlock a world of Knowledge and inspiration with digitunza, the ultimate
+                        Unlock a world of Knowledge and inspiration with digifahamu, the ultimate
                         talking book app that is designed to enlighten and engage curious minds like yours.
                         Whether you are passionate about agriculture, health, self-improvement, or simply love to Learn
                          .our app has something for everyone.
@@ -82,7 +82,7 @@ function Landing () {
                         <Button
                           className="btn-icon mb-3 mb-sm-0"
                           color="info"
-                          href="https://demos.creative-tim.com/argon-design-system-react/#/documentation/alerts?ref=adsr-landing-page"
+                          href=""
                         >
                           <span className="btn-inner--icon mr-1">
                             <i className="fa fa-code" />
@@ -92,13 +92,13 @@ function Landing () {
                         <Button
                           className="btn-white btn-icon mb-3 mb-sm-0 ml-1"
                           color="default"
-                          href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
+                          href="https://drive.google.com/file/d/12rgrlts6qEmS9ZoXziGPyl-EuJAO8DBx/view?usp=sharing"
                         >
                           <span className="btn-inner--icon mr-1">
                             <i className="ni ni-cloud-download-95" />
                           </span>
                           <span className="btn-inner--text">
-                            Download Digitunza
+                            Download digifahamu
                           </span>
                         </Button>
                       </div>
@@ -349,7 +349,7 @@ function Landing () {
                       </h4>
                       <p className="lead text-italic text-white">
                       Experience smooth performance and lightning-fast loading times, Whether you're online or offline,
-                      digitunza delivers a consistently smooth and responsive experience.
+                      digifahamu delivers a consistently smooth and responsive experience.
                       </p>
                     </blockquote>
                   </Card>
@@ -492,7 +492,7 @@ function Landing () {
                 <Col lg="8">
                   <h2 className="display-3">The amazing Team</h2>
                   <p className="lead text-muted">
-                  At digitunza, we're more than just a team we're a passionate collective of visionaries dedicated to empowering
+                  At digifahamu, we're more than just a team we're a passionate collective of visionaries dedicated to empowering
                   Africa through knowledge and innovation. With diverse expertise and a shared commitment to excellence, our team works 
                   tirelessly to bring you the best possible experience.
                   </p>
@@ -682,7 +682,7 @@ function Landing () {
                         Ready to Dive In? 
                       </h3>
                       <p className="lead text-white mt-3">
-                      Don't miss out on the opportunity to broaden your knowledge and spark your curiosity. Download Digitunza today and embark on a journey of lifelong learning and discovery.
+                      Don't miss out on the opportunity to broaden your knowledge and spark your curiosity. Download digifahamu today and embark on a journey of lifelong learning and discovery.
                       Let's explore the world together—one chapter at a time.
                       </p>
                     </Col>
@@ -691,7 +691,7 @@ function Landing () {
                         block
                         className="btn-white"
                         color="default"
-                        href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
+                        href="https://drive.google.com/file/d/12rgrlts6qEmS9ZoXziGPyl-EuJAO8DBx/view?usp=sharing"
                         size="lg"
                       >
                         Download
@@ -708,7 +708,7 @@ function Landing () {
                 <Col lg="10">
                   <h2 className="display-3 text-white">Join the Movement for Change</h2>
                   <p className="lead text-white">
-                  Together, we can overcome challenges, break barriers, and build a brighter future for Africa. Download digitunza today and embark on a journey of learning, growth, and transformation. 
+                  Together, we can overcome challenges, break barriers, and build a brighter future for Africa. Download digifahamu today and embark on a journey of learning, growth, and transformation. 
                   Let's harness the power of knowledge to shape a better tomorrow—for ourselves and generations to come.
                   </p>
                 </Col>
@@ -731,7 +731,7 @@ function Landing () {
                   <h5 className="text-white mt-3">Challenging Harmful Traditions</h5>
                   <p className="text-white mt-3">
                   While traditions enrich our cultural heritage, some practices may hinder progress and well-being.
-                  Digitunza addresses taboo topics and challenges harmful cultural rituals, promoting dialogue and empowerment within communities to embrace positive change.
+                  digifahamu addresses taboo topics and challenges harmful cultural rituals, promoting dialogue and empowerment within communities to embrace positive change.
                   </p>
                 </Col>
                 <Col lg="4">
@@ -741,7 +741,7 @@ function Landing () {
                   <h5 className="text-white mt-3">Promoting Healthy Practices</h5>
                   <p className="text-white mt-3">
                   Hygiene,nutrition, disease prevention these are not just topics; they are the building blocks of a healthy
-                  and prosperous future. Through engaging audio content, digitunza educates and empowers you to adopt healthier habits and safeguard the well-being of yourself and your loved ones.
+                  and prosperous future. Through engaging audio content, digifahamu educates and empowers you to adopt healthier habits and safeguard the well-being of yourself and your loved ones.
                   </p>
                 </Col>
               </Row>

@@ -40,7 +40,7 @@ root.render(
       <Route path="/landing-page" exact element={<Landing />} />
       <Route path="/admin/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
-      <Route path="*" element={<Navigate to="/admin/index" replace />} />
+      <Route path="*" element={<Navigate to="/landing-page" replace />} />
     </Routes>
   </BrowserRouter>
   </Provider>

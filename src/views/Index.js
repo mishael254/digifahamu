@@ -23,6 +23,7 @@ import Chart from "chart.js";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
+
 import {
   Button,
   Card,
@@ -56,21 +57,24 @@ import {
   chartExample1,
   chartExample2,
 } from "variables/charts.js";
+//message data imports
+import MessagePopularity from "variables/MessagePopularity";
 
 import Header from "components/Headers/Header.js";
-
-const Index = (props) => {
-  const [activeNav, setActiveNav] = useState(1);
+import Api from "./dataviews/reduximplementation/Api";
+const Index = ({statlogs}) => {
+  const [activeNav, setActiveNav] = useState('monthly');
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  const {members, feedbacks, deployments, messages, projects,statLogs, isLoading,playlists } = Api();
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
 
-  const toggleNavs = (e, index) => {
+  const toggleNavs = (e, interval) => {
     e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
+    setActiveNav(interval);
+    
   };
   return (
     <>
@@ -93,10 +97,10 @@ const Index = (props) => {
                       <NavItem>
                         <NavLink
                           className={classnames("py-2 px-3", {
-                            active: activeNav === 1,
+                            active: activeNav === 'monthly',
                           })}
                           href="#pablo"
-                          onClick={(e) => toggleNavs(e, 1)}
+                          onClick={(e) => toggleNavs(e, 'monthly')}
                         >
                           <span className="d-none d-md-block">Month</span>
                           <span className="d-md-none">M</span>
@@ -105,11 +109,11 @@ const Index = (props) => {
                       <NavItem>
                         <NavLink
                           className={classnames("py-2 px-3", {
-                            active: activeNav === 2,
+                            active: activeNav === 'weekly',
                           })}
                           data-toggle="tab"
                           href="#pablo"
-                          onClick={(e) => toggleNavs(e, 2)}
+                          onClick={(e) => toggleNavs(e, 'weekly')}
                         >
                           <span className="d-none d-md-block">Week</span>
                           <span className="d-md-none">W</span>
@@ -122,11 +126,7 @@ const Index = (props) => {
               <CardBody>
                 {/* Chart */}
                 <div className="chart">
-                  <Line
-                    data={chartExample1[chartExample1Data]}
-                    options={chartExample1.options}
-                    getDatasetAtEvent={(e) => console.log(e)}
-                  />
+                <MessagePopularity statLogs={statLogs} activeInterval={activeNav} />
                 </div>
               </CardBody>
             </Card>

@@ -1,11 +1,11 @@
 {
-  "name": "argon-dashboard-react",
+  "name": "digifahamu",
   "version": "1.2.4",
-  "description": "React version of Argon Dashboard by Creative Tim",
+  "description": "Digifahamu by CBCC",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-react.git"
+    "url": "git+https://github.com/"
   },
   "keywords": [
     "react",
@@ -15,14 +15,15 @@
     "dashboard",
     "dashboard-react",
     "argon-dashboard",
-    "argon-dashboard-react"
+    "argon-dashboard-react",
+    "digifahamu"
   ],
   "author": "Creative Tim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
+    "url": "https://github.com/"
   },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
+  "homepage": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

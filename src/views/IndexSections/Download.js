@@ -33,21 +33,21 @@ class Download extends React.Component {
                 <h2 className="display-3">
                 Empower Yourself with Knowledge{" "}
                   <span className="text-success">
-                  Introducing Digitunza for Africa
+                  Introducing digifahamu for Africa
                   </span>
                 </h2>
                 <p className="lead">
                 In a world filled with challenges, knowledge is the ultimate tool for transformation. 
-                Welcome to digitunza, your gateway to enlightenment and empowerment. 
+                Welcome to digifahamu, your gateway to enlightenment and empowerment. 
                 Designed specifically for individuals across Africa, our app is here to address common issues and equip you with the insights and resources you need to thrive.
                 </p>
                 <div className="btn-wrapper">
                   <Button
                     className="mb-3 mb-sm-0"
                     color="primary"
-                    href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
+                    href="https://drive.google.com/file/d/12rgrlts6qEmS9ZoXziGPyl-EuJAO8DBx/view?usp=sharing"
                   >
-                    Download digitunza
+                    Download digifahamu
                   </Button>
                 </div>
                 <div className="text-center">
