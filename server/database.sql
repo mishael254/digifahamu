@@ -117,7 +117,7 @@ VALUES
 
 
 /**deployments*/
-CREATE TABLE deployments(id SERIAL PRIMARY KEY,title VARCHAR(255),deployment INTEGER, deploymentDate TIMESTAMP,project JSONB);
+CREATE TABLE deployments(id SERIAL PRIMARY KEY,title VARCHAR(255),deployment INTEGER, thumbnail VARCHAR(255), deploymentDate TIMESTAMP,project JSONB);
 
 /**messages*/
 
@@ -153,4 +153,12 @@ CREATE TABLE statlogs (
     lasttimeplayed TIMESTAMP,
     numberoftimesplayed INTEGER,
     numberofsecondsplayed INTEGER
+);
+CREATE TABLE projects (
+    projectUuid UUID UNIQUE,
+    id SERIAL PRIMARY KEY,
+    projectName VARCHAR(255),
+    anthem VARCHAR(255),
+    theme VARCHAR(255),
+    mode VARCHAR(50)
 );

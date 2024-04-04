@@ -5,12 +5,22 @@ import { useState , useEffect } from "react";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import Api from "views/dataviews/reduximplementation/Api";
 const Header = () => {
-  const {members, feedbacks, deployments, messages, projects,statLogs, isLoading } = Api();
+  const {members, feedbacks, deployments, messages, projects,statLogs, isLoading,playlists } = Api();
   const [deploymentsCount, setDeploymentsCount] = useState(0);
+  const [projectsCount, setProjectsCount] = useState(0);
+  const [feedbacksCount, setFeedbacksCount] = useState(0);
+  const [playlistCount, setPlaylistCount] = useState(0);
   useEffect(() => {
     // Set the count of deployments
     setDeploymentsCount(deployments.length);
-  }, [deployments]); // Trigger effect when deployments data changes
+    // set the count of projects
+    setProjectsCount(projects.length);
+    //set the count of feedbacks
+    setFeedbacksCount(feedbacks.length);
+    //set the count of playlists
+    setPlaylistCount(playlists.length);
+
+  }, [deployments,projects,feedbacks,playlists]); // Trigger effect when deployments data changes
 
 
   return (
@@ -59,9 +69,11 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          New Members
+                          Playlists
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">2,356</span>
+                        <span className="h2 font-weight-bold mb-0">
+                          {playlistCount}
+                        </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -89,7 +101,9 @@ const Header = () => {
                         >
                           Projects
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
+                        <span className="h2 font-weight-bold mb-0">
+                          {projectsCount}
+                        </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -117,7 +131,9 @@ const Header = () => {
                         >
                           Feedbacks
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
+                        <span className="h2 font-weight-bold mb-0">
+                          {feedbacksCount}
+                        </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-info text-white rounded-circle shadow">

@@ -1,22 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-
+import React from "react";
 const Chart = require("chart.js");
 //
 // Chart extension for making the bars rounded
@@ -307,115 +289,31 @@ function parseOptions(parent, options) {
     }
   }
 }
-
-// Example 1 of Chart inside src/views/Index.js (Sales value - Card)
-let chartExample1 = {
-  options: {
-    scales: {
-      yAxes: [
-        {
-          gridLines: {
-            color: colors.gray[900],
-            zeroLineColor: colors.gray[900],
-          },
-          ticks: {
-            callback: function (value) {
-              if (!(value % 10)) {
-                return "$" + value + "k";
-              }
-            },
-          },
-        },
-      ],
-    },
-    tooltips: {
-      callbacks: {
-        label: function (item, data) {
-          var label = data.datasets[item.datasetIndex].label || "";
-          var yLabel = item.yLabel;
-          var content = "";
-
-          if (data.datasets.length > 1) {
-            content += label;
-          }
-
-          content += "$" + yLabel + "k";
-          return content;
-        },
-      },
-    },
-  },
-  data1: (canvas) => {
-    return {
-      labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+const MessagePopularity = ({ statLogs }) => {
+    // Prepare data for the chart
+    const data = {
+      labels: statLogs.map((log) => log.FirstTimePlayed), // Assuming FirstTimePlayed is the time data
       datasets: [
         {
-          label: "Performance",
-          data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+          label: 'Message Popularity',
+          data: statLogs.map((log) => log.NumberOfTimesPlayed), // Assuming NumberOfTimesPlayed is the popularity data
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
         },
       ],
     };
-  },
-  data2: (canvas) => {
-    return {
-      labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      datasets: [
-        {
-          label: "Performance",
-          data: [0, 20, 5, 25, 10, 30, 15, 40, 40],
-        },
-      ],
-    };
-  },
-};
+  
+    return (
+      <div>
+        <h2>Message Popularity Over Time</h2>
+        <Line data={data} />
+      </div>
+    );
+  };
 
-// Example 2 of Chart inside src/views/Index.js (Total orders - Card)
-let chartExample2 = {
-  options: {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            callback: function (value) {
-              if (!(value % 10)) {
-                //return '$' + value + 'k'
-                return value;
-              }
-            },
-          },
-        },
-      ],
-    },
-    tooltips: {
-      callbacks: {
-        label: function (item, data) {
-          var label = data.datasets[item.datasetIndex].label || "";
-          var yLabel = item.yLabel;
-          var content = "";
-          if (data.datasets.length > 1) {
-            content += label;
-          }
-          content += yLabel;
-          return content;
-        },
-      },
-    },
-  },
-  data: {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [
-      {
-        label: "Sales",
-        data: [25, 20, 30, 22, 17, 29],
-        maxBarThickness: 10,
-      },
-    ],
-  },
-};
-
-module.exports = {
-  chartOptions, // used inside src/views/Index.js
-  parseOptions, // used inside src/views/Index.js
-  chartExample1, // used inside src/views/Index.js
-  chartExample2, // used inside src/views/Index.js
-};
+  module.exports = {
+    MessagePopularity, // used inside src/views/Index.js
+    chartOptions,
+    parseOptions
+  };
