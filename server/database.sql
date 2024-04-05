@@ -165,7 +165,17 @@ CREATE TABLE projects (
 );
 CREATE TABLE members (
     id SERIAL PRIMARY KEY,
-    memberUuid VARCHAR(255),
+    memberUuid VARCHAR(255) UNIQUE,
+    phone VARCHAR(255),
+    project INTEGER,
+    memberGroup INTEGER
+    
+);
+ALTER TABLE members ADD CONSTRAINT unique_member_uuid UNIQUE (memberUuid);
+
+CREATE TABLE members (
+    id SERIAL PRIMARY KEY,
+    memberUuid UUID UNIQUE,
     phone VARCHAR(255),
     project INTEGER,
     memberGroup INTEGER
