@@ -10,6 +10,7 @@ const Header = () => {
   const [projectsCount, setProjectsCount] = useState(0);
   const [feedbacksCount, setFeedbacksCount] = useState(0);
   const [playlistCount, setPlaylistCount] = useState(0);
+  const [membersCount, setMembersCount] = useState(0);
   useEffect(() => {
     // Set the count of deployments
     setDeploymentsCount(deployments.length);

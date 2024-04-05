@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import { useState } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
@@ -193,9 +176,9 @@ const Index = ({statlogs}) => {
                           </div>
                         </li>
                         <li className="px-0 list-group-item">
-                        <div class="align-items-center row">
-                        <div class="col-auto col">
-                          <a class="avatar rounded-circle" href="#pablo">
+                        <div className="align-items-center row">
+                        <div className="col-auto col">
+                          <a className="avatar rounded-circle" href="#pablo">
                             <img alt="..." src={require("../assets/img/theme/digiredio.jpg")}/>
                           </a>
                         </div>

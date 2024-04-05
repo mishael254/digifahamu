@@ -146,6 +146,7 @@ CREATE TABLE playlists (
 );
 
 CREATE TABLE statlogs (
+    id SERIAL PRIMARY KEY,
     messageUuid VARCHAR(255),
     messageTitle VARCHAR(255),
     phone VARCHAR(255),
@@ -161,4 +162,12 @@ CREATE TABLE projects (
     anthem VARCHAR(255),
     theme VARCHAR(255),
     mode VARCHAR(50)
+);
+CREATE TABLE members (
+    id SERIAL PRIMARY KEY,
+    memberUuid VARCHAR(255),
+    phone VARCHAR(255),
+    project INTEGER,
+    memberGroup INTEGER
+    
 );

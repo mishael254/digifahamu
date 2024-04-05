@@ -24,7 +24,7 @@ const db = pgp(postgresConfig);
 app.get('/api/getMembers', async (req, res) => {
   try {
     // Attempt to fetch data from the external API
-    const apiEndpoint = 'http://tathmini.live/api/member/';
+    const apiEndpoint = 'http://tathmini.live/api/member-details/';
     const response = await axios.get(apiEndpoint);
     //create table if there is none 
     await createTableIfNotExists('members', response.data);
@@ -330,6 +330,23 @@ async function saveDataToDatabase(tableName, data) {
     const insertQuery = `INSERT INTO ${tableName} (${columnsList}) VALUES (${valuesPlaceholders}) ON CONFLICT (id) DO NOTHING;`;
 
     for (const item of data) {
+
+      // Handle empty strings in the LastTimePlayed field
+      if (item.LastTimePlayed === "") {
+        item.LastTimePlayed = null; // Convert empty string to NULL
+      }
+      // Handle empty strings in the FirstTimePlayed field
+      if (item.FirstTimePlayed === ""){
+        item.FirstTimePlayed = null; // Convert the empty string to NULL
+      }
+      //parse timestamp strings into Date objects 
+      if (item.LastTimePlayed){
+        item.LastTimePlayed = new Date(item.LastTimePlayed);
+      }
+      if (item.FirstTimePlayed){
+        item.FirstTimePlayed = new Date (item.FirstTimePlayed);
+      }
+
       const values = columns.map(column => {
         return ['latitude', 'longitude', 'GroupNo', 'Age'].includes(column)
           ? sanitizeNumericField(item[column])
