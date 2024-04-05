@@ -197,12 +197,12 @@ const Index = ({statlogs}) => {
                     <li className="px-0 list-group-item">
                       <div className="align-items-center row">
                       <div className="col-auto col">
-                      <a class="avatar rounded-circle" href="#pablo">
+                      <a className="avatar rounded-circle" href="#pablo">
                         <img alt="..." src={require("../assets/img/theme/digisinema.jpg")}/>
                       </a>
                       </div>
                       <div className="col ml--2">
-                        <h4 class="mb-0">
+                        <h4 className="mb-0">
                           <a href="#pablo">Samantha Ivy</a>
                         </h4>
                         <span className="text-danger">●</span>
@@ -222,7 +222,7 @@ const Index = ({statlogs}) => {
                       <h4 className="mb-0">
                         <a href="#pablo">John Michael</a>
                       </h4>
-                      <span class="text-success">●</span>
+                      <span className="text-success">●</span>
                       <small>Online</small>
                     </div>
                   <div className="col-auto col">
@@ -252,8 +252,8 @@ const Index = ({statlogs}) => {
                   </div>
                 <div>
                   <div className="custom-control custom-checkbox custom-checkbox-success">
-                    <input className="custom-control-input" id="chk-todo-task-1" type="checkbox" checked=""/>
-                      <label className="custom-control-label" for="chk-todo-task-1"></label>
+                    <input className="custom-control-input" id="chk-todo-task-1" type="checkbox" defaultChecked/>
+                      <label className="custom-control-label" htmlFor="chk-todo-task-1"></label>
                   </div>
                 </div>
                 </div>
@@ -266,8 +266,8 @@ const Index = ({statlogs}) => {
                   </div>
                   <div>
                   <div className="custom-control custom-checkbox custom-checkbox-warning">
-                    <input class="custom-control-input" id="chk-todo-task-2" type="checkbox"/>
-                    <label className="custom-control-label" for="chk-todo-task-2"></label>
+                    <input className="custom-control-input" id="chk-todo-task-2" type="checkbox"/>
+                    <label className="custom-control-label" htmlFor="chk-todo-task-2"></label>
                   </div>
                 </div>
                 </div>
@@ -281,7 +281,7 @@ const Index = ({statlogs}) => {
                   <div>
                   <div className="custom-control custom-checkbox custom-checkbox-info">
                     <input className="custom-control-input" id="chk-todo-task-3" type="checkbox"/>
-                      <label className="custom-control-label" for="chk-todo-task-3"></label>
+                      <label className="custom-control-label" htmlFor="chk-todo-task-3"></label>
                   </div>
                 </div>
                 </div>
@@ -294,8 +294,8 @@ const Index = ({statlogs}) => {
                 </div>
                 <div>
                   <div className="custom-control custom-checkbox custom-checkbox-danger">
-                    <input className="custom-control-input" id="chk-todo-task-4" type="checkbox" checked=""/>
-                    <label className="custom-control-label" for="chk-todo-task-4"></label>
+                    <input className="custom-control-input" id="chk-todo-task-4" type="checkbox"/>
+                    <label className="custom-control-label" htmlFor="chk-todo-task-4"></label>
                   </div>
                 </div>
                 </div>
