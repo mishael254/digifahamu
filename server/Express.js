@@ -328,10 +328,16 @@ async function saveDataToDatabase(tableName, data) {
     const valuesPlaceholders = columns.map((_, index) => `$${index + 1}`).join(', ');
 
     const insertQuery = `INSERT INTO ${tableName} (${columnsList}) VALUES (${valuesPlaceholders}) ON CONFLICT (id) DO NOTHING;`;
+    //create an array to store cleaned member details data without duplicates 
 
+    const cleanedMembersData = [];
+
+    //create a set that will store the existing field of memberuuid values
+
+    const existingMemberUuids = new Set();
     for (const item of data) {
-
-      // Handle empty strings in the LastTimePlayed field
+      
+      // Handle empty strings in the LastTimePlayed field {statlogs}
       if (item.LastTimePlayed === "") {
         item.LastTimePlayed = null; // Convert empty string to NULL
       }
@@ -346,20 +352,55 @@ async function saveDataToDatabase(tableName, data) {
       if (item.FirstTimePlayed){
         item.FirstTimePlayed = new Date (item.FirstTimePlayed);
       }
+      //check if the member uuid already exists in the set {members table}
+      if (!existingMemberUuids.has(item.memberuuid)){
+        //add the memberUuid to the set and push the item to cleanedData
+        existingMemberUuids.add(item.memberuuid);
+        cleanedMembersData.push(item);
+      }
+      //check if the phone number already exists in the mapping table
+      const existingMapping = await db.oneOrNone('SELECT unique_identifier FROM phonefeedbackmapping WHERE phone = $1', item.phone);
 
-      const values = columns.map(column => {
-        return ['latitude', 'longitude', 'GroupNo', 'Age'].includes(column)
-          ? sanitizeNumericField(item[column])
-          : item[column];
-      });
+      let uniqueIdentifier;
+      if(existingMapping){
+        //use the existing unique identifier if the phone number already has one {feedbacks}
+        uniqueIdentifier = existingMapping.unique_identifier;
+      }else {
+        /**generate a new unique identifier if the phone number does not have one 
+        Implement this generateUniqueIdentifier function to come up with a new unique identifier on {feedbacks}
+        */
+        uniqueIdentifier = generateUniqueIdentifier()
 
-      await db.none(insertQuery, values);
-    }
+        //insert now the phone number and the unique identifier into the mapping table
+        await db.none('INSERT INTO phonefeedbackmapping (phone, unique_identifier) VALUES ($1, $2)', [item.phone, uniqueIdentifier]);
+      }
+      // Check if the item is a feedback
+    // Include unique_identifier when inserting feedbacks
+    const values = columns.map(column => {
+      return column === 'unique_identifier'
+        ? uniqueIdentifier
+        : ['latitude', 'longitude', 'GroupNo', 'Age'].includes(column)
+        ? sanitizeNumericField(item[column])
+        : item[column];
+    });
+
+    // Execute the insert query
+    await db.none(insertQuery, values);
+  }
     console.log(`Data saved to ${tableName} successfully.`);
   } catch (error) {
     console.error(`Error saving data to table "${tableName}":`, error);
   }
 }
+//function to generate a unique identifier for the feedbacks
+function generateUniqueIdentifier() {
+  // Generate a random unique identifier using a combination of timestamp and random number
+  const timestamp = new Date().getTime(); // Get current timestamp
+  const randomNumber = Math.floor(Math.random() * 1000000); // Generate a random number
+  const uniqueIdentifier = `${timestamp}_${randomNumber}`; // Concatenate timestamp and random number
+  return uniqueIdentifier;
+}
+
 // Function to extract a specific address component from Geocoding API results
 function extractAddressComponent(addressComponents, type) {
   for (const component of addressComponents) {

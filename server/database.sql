@@ -181,3 +181,20 @@ CREATE TABLE members (
     memberGroup INTEGER
     
 );
+{/**create a table for mapping feedbacks to specific phone numbers*/}
+
+CREATE TABLE phonefeedbackmapping (
+    id SERIAL PRIMARY KEY,
+    phone VARCHAR(255) UNIQUE,
+    unique_identifier VARCHAR(255) UNIQUE
+);
+
+CREATE TABLE feedbacks (
+    id SERIAL PRIMARY KEY,
+    unique_identifier VARCHAR(255) UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    messageUuid UUID NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    feedbackType VARCHAR(50) NOT NULL,
+    feedBack TEXT NOT NULL
+);
