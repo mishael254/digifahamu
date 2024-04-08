@@ -191,7 +191,7 @@ CREATE TABLE phonefeedbackmapping (
 
 CREATE TABLE feedbacks (
     id SERIAL PRIMARY KEY,
-    unique_identifier VARCHAR(255) UNIQUE,
+    unique_identifier VARCHAR(255),
     phone VARCHAR(20) NOT NULL,
     messageUuid UUID NOT NULL,
     message VARCHAR(255) NOT NULL,

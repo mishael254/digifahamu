@@ -61,6 +61,7 @@ app.get('/api/getFeedbacks', async (req, res) => {
     await saveDataToDatabase('feedbacks', response.data);
     //wait to update the table members
     await updateMembersTableWithAddress();
+    
   } catch (error) {
     console.error('Error fetching feedbacks from API:', error);
 
@@ -369,10 +370,19 @@ async function saveDataToDatabase(tableName, data) {
         /**generate a new unique identifier if the phone number does not have one 
         Implement this generateUniqueIdentifier function to come up with a new unique identifier on {feedbacks}
         */
-        uniqueIdentifier = generateUniqueIdentifier()
-
+        uniqueIdentifier = generateUniqueIdentifier();
+        
         //insert now the phone number and the unique identifier into the mapping table
         await db.none('INSERT INTO phonefeedbackmapping (phone, unique_identifier) VALUES ($1, $2)', [item.phone, uniqueIdentifier]);
+         // Update unique identifiers in feedbacks table after saving data
+       
+      }
+      const existingItem = await db.oneOrNone(`SELECT id FROM feedbacks WHERE phone = $1 AND messageuuid = $2`, [item.phone, item.messageUuid]);
+      
+      // If the item already exists, skip to the next item
+      if (existingItem) {
+        console.log(`Item with phone ${item.phone} and message UUID ${item.messageUuid} already exists. Skipping insertion.`);
+        continue;
       }
       // Check if the item is a feedback
     // Include unique_identifier when inserting feedbacks
@@ -385,9 +395,12 @@ async function saveDataToDatabase(tableName, data) {
     });
 
     // Execute the insert query
+   //await updateFeedbacksUniqueIdentifier();
     await db.none(insertQuery, values);
   }
     console.log(`Data saved to ${tableName} successfully.`);
+    // Update unique identifiers in feedbacks table after saving data
+    updateFeedbacksUniqueIdentifier()
   } catch (error) {
     console.error(`Error saving data to table "${tableName}":`, error);
   }
@@ -409,6 +422,36 @@ function extractAddressComponent(addressComponents, type) {
     }
   }
   return null;
+}
+//update the unique identifier for the column unique_identifier in feedbacks table
+async function updateFeedbacksUniqueIdentifier() {
+  try {
+    const updateQuery = `
+      UPDATE feedbacks AS f
+      SET unique_identifier = m.unique_identifier
+      FROM phonefeedbackmapping AS m
+      WHERE f.phone = m.phone;
+    `;
+    await db.none(updateQuery);
+    console.log('Unique identifiers updated in the feedbacks table.');
+
+    // Update remaining rows with null unique identifiers
+    const remainingUpdateQuery = `
+      UPDATE feedbacks
+      SET unique_identifier = (
+        SELECT DISTINCT ON (phone) unique_identifier
+        FROM feedbacks
+        WHERE unique_identifier IS NOT NULL
+        AND phone = feedbacks.phone
+      )
+      WHERE unique_identifier IS NULL;
+    `;
+    await db.none(remainingUpdateQuery);
+    console.log('Remaining unique identifiers updated in the feedbacks table.');
+  } catch (error) {
+    console.error('Error updating unique identifiers in the feedbacks table:', error);
+    throw error;
+  }
 }
 
 // Function to get county and locality from Google Geocoding API
