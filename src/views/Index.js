@@ -42,7 +42,7 @@ import {
 } from "variables/charts.js";
 //message data imports
 import MessagePopularity from "variables/MessagePopularity";
-
+import Skeleton from 'react-loading-skeleton';
 import Header from "components/Headers/Header.js";
 import Api from "./dataviews/reduximplementation/Api";
 const Index = ({statlogs}) => {
@@ -153,7 +153,15 @@ const Index = ({statlogs}) => {
       <h3 className="mb-0">Most Recent Projects</h3>
     </CardHeader>
     <CardBody>
-      <ul className="list my--3 list-group list-group-flush">
+      {/**Rendering the skeleton loading if isloading is true */}
+      {isLoading ?(
+        <div>
+          <Skeleton width={100} height={100} />
+          <Skeleton width={20} style={{ marginBottom: '10px' }}  />
+          <Skeleton count={4}/>
+        </div>
+      ):(
+        <ul className="list my--3 list-group list-group-flush">
         {/* Map over the projects array */}
         {projects.map((project, index) => (
           <li className="px-0 list-group-item" key={index}>
@@ -180,79 +188,101 @@ const Index = ({statlogs}) => {
           </li>
         ))}
       </ul>
+
+      )}
+      
     </CardBody>
   </Card>
 </Col>
-  <Col className="mb-5 mb-xl-0" xl="4">
-    <Card className="shadow">
-      <CardHeader className="border-0">
-        <h3 className="mb-0">To do list</h3>
-      </CardHeader>
-      <CardBody>
-        {/* Paste the provided To do list card content here */}
-             
-            <ul data-toggle="checklist" className="list-group list-group-flush">
-              <li className="checklist-entry flex-column align-items-start py-4 px-4 list-group-item">
-                <div className="checklist-item checklist-item-success checklist-item-checked">
-                  <div className="checklist-info">
-                    <h5 className="checklist-title mb-0">Call with Dave</h5>
-                    <small>10:30 AM</small>
-                  </div>
-                <div>
-                  <div className="custom-control custom-checkbox custom-checkbox-success">
-                    <input className="custom-control-input" id="chk-todo-task-1" type="checkbox" defaultChecked/>
-                      <label className="custom-control-label" htmlFor="chk-todo-task-1"></label>
-                  </div>
-                </div>
-                </div>
-              </li>
-              <li className="checklist-entry flex-column align-items-start py-4 px-4 list-group-item">
-                <div className="checklist-item checklist-item-warning">
-                  <div className="checklist-info">
-                    <h5 className="checklist-title mb-0">Lunch meeting</h5>
-                    <small>10:30 AM</small>
-                  </div>
-                  <div>
-                  <div className="custom-control custom-checkbox custom-checkbox-warning">
-                    <input className="custom-control-input" id="chk-todo-task-2" type="checkbox"/>
-                    <label className="custom-control-label" htmlFor="chk-todo-task-2"></label>
-                  </div>
-                </div>
-                </div>
-              </li>
-              <li className="checklist-entry flex-column align-items-start py-4 px-4 list-group-item">
-                  <div className="checklist-item checklist-item-info">
+<Col className="mb-5 mb-xl-0" xl="4">
+  <Card className="shadow">
+    <CardHeader className="border-0">
+      <h3 className="mb-0">Most recent feedbacks</h3>
+    </CardHeader>
+    <CardBody>
+      {/* Render skeleton loading if isLoading is true */}
+      {isLoading ? (
+        <div>
+          <Skeleton height={100} count={4} />
+        </div>
+      ) : (
+        <ul data-toggle="checklist" className="list-group list-group-flush">
+          {/* Map over the sorted and formatted feedbacks array */}
+          {feedbacks
+            .filter((feedback) =>
+              // Filter feedbacks to match those with corresponding statLogs
+              statLogs.some((log) => log.messageuuid === feedback.messageuuid)
+            )
+            .sort((a, b) => {
+              // Sort feedbacks based on corresponding statLogs' time
+              const statlogA = statLogs.find(
+                (log) => log.messageuuid === a.messageuuid
+              );
+              const statlogB = statLogs.find(
+                (log) => log.messageuuid === b.messageuuid
+              );
+
+              if (!statlogA || !statlogB) return 0;
+
+              const dateA = new Date(statlogA.lasttimeplayed);
+              const dateB = new Date(statlogB.lasttimeplayed);
+
+              return dateB - dateA;
+            })
+            .map((feedback, index) => {
+              // Find the corresponding statlog object for the feedback
+              const statlog = statLogs.find(
+                (log) => log.messageuuid === feedback.messageuuid
+              );
+
+              if (!statlog) return null;
+
+              // Parse the LastTimePlayed string to a Date object
+              const date = new Date(statlog.lasttimeplayed);
+
+              // Format the date to display time only
+              const time = date.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              });
+
+              return (
+                <li
+                  className="checklist-entry flex-column align-items-start py-4 px-4 list-group-item"
+                  key={index}
+                >
+                  <div className="checklist-item checklist-item-success checklist-item-checked">
                     <div className="checklist-info">
-                      <h5 className="checklist-title mb-0">Argon Dashboard Launch</h5>
-                        <small>10:30 AM</small>
+                      <h5 className="checklist-title mb-0">
+                        {feedback.feedback} {/* Use feedback.feedBack */}
+                      </h5>
+                      <small>{time}</small> {/* Display formatted time */}
                     </div>
-                  <div>
-                  <div className="custom-control custom-checkbox custom-checkbox-info">
-                    <input className="custom-control-input" id="chk-todo-task-3" type="checkbox"/>
-                      <label className="custom-control-label" htmlFor="chk-todo-task-3"></label>
+                    <div>
+                      <div className="custom-control custom-checkbox custom-checkbox-success">
+                        <input
+                          className="custom-control-input"
+                          id={`chk-todo-task-${index}`}
+                          type="checkbox"
+                          defaultChecked
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor={`chk-todo-task-${index}`}
+                        ></label>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                </div>
-            </li>
-            <li className="checklist-entry flex-column align-items-start py-4 px-4 list-group-item">
-              <div className="checklist-item checklist-item-danger checklist-item-checked">
-                <div className="checklist-info">
-                  <h5 className="checklist-title mb-0">Winter Hackaton</h5>
-                  <small>10:30 AM</small>
-                </div>
-                <div>
-                  <div className="custom-control custom-checkbox custom-checkbox-danger">
-                    <input className="custom-control-input" id="chk-todo-task-4" type="checkbox"/>
-                    <label className="custom-control-label" htmlFor="chk-todo-task-4"></label>
-                  </div>
-                </div>
-                </div>
-              </li>
-            </ul>
-          
-      </CardBody>
-    </Card>
-  </Col>
+                </li>
+              );
+            })}
+        </ul>
+      )}
+    </CardBody>
+  </Card>
+</Col>
+
+
   <Col className="mb-5 mb-xl-0" xl="4">
     <Card className="shadow">
       <CardHeader className="border-0">
