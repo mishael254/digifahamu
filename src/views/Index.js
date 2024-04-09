@@ -229,6 +229,7 @@ const Index = ({statlogs}) => {
 
               return dateB - dateA;
             })
+            .slice(0, 3) // Display only the top most 5 feedbacks
             .map((feedback, index) => {
               // Find the corresponding statlog object for the feedback
               const statlog = statLogs.find(
@@ -278,9 +279,15 @@ const Index = ({statlogs}) => {
             })}
         </ul>
       )}
+      {feedbacks.length > 3 && ( // Render view more button if there are more than 5 feedbacks
+        <Button color="primary" size="sm" className="mt-3">
+          View More
+        </Button>
+      )}
     </CardBody>
   </Card>
 </Col>
+
 
 
   <Col className="mb-5 mb-xl-0" xl="4">
