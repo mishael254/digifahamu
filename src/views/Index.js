@@ -147,94 +147,42 @@ const Index = ({statlogs}) => {
         {/**formated additional content */}
 
         <Row className="mt-5">
-  <Col className="mb-5 mb-xl-0" xl="4">
-    <Card className="shadow">
-      <CardHeader className="border-0">
-        <h3 className="mb-0">Team members</h3>
-      </CardHeader>
-      <CardBody>
-        {/* Paste the provided Team members card content here */}
-                  
-                          <ul className="list my--3 list-group list-group-flush">
-                            <li className="px-0 list-group-item">
-                            <div className="align-items-center row">
-                            <div className="col-auto col">
-                              <a className="avatar rounded-circle" href="#pablo">
-                                <img alt="..." src={require("../assets/img/theme/BADILISHA-01.jpg")}/>
-                              </a>
-                            </div>
-                            <div className="col ml--2">
-                              <h4 className="mb-0">
-                                <a href="#pablo">John Michael</a>
-                              </h4>
-                              <span className="text-success">●</span>
-                                <small>Online</small>
-                            </div>
-                            <div className="col-auto col">
-                              <button type="button" className="btn btn-primary btn-sm">Add</button>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="px-0 list-group-item">
-                        <div className="align-items-center row">
-                        <div className="col-auto col">
-                          <a className="avatar rounded-circle" href="#pablo">
-                            <img alt="..." src={require("../assets/img/theme/digiredio.jpg")}/>
-                          </a>
-                        </div>
-                        <div className="col ml--2">
-                          <h4 className="mb-0">
-                            <a href="#pablo">Alex Smith</a>
-                          </h4>
-                          <span className="text-warning">●</span>
-                          <small>In a meeting</small>
-                        </div>
-                        <div className="col-auto col">
-                          <button type="button" className="btn btn-primary btn-sm">Add</button>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="px-0 list-group-item">
-                      <div className="align-items-center row">
-                      <div className="col-auto col">
-                      <a className="avatar rounded-circle" href="#pablo">
-                        <img alt="..." src={require("../assets/img/theme/digisinema.jpg")}/>
-                      </a>
-                      </div>
-                      <div className="col ml--2">
-                        <h4 className="mb-0">
-                          <a href="#pablo">Samantha Ivy</a>
-                        </h4>
-                        <span className="text-danger">●</span>
-                        <small>Offline</small>
-                      </div>
-                      <div className="col-auto col">
-                        <button type="button" className="btn btn-primary btn-sm">Add</button>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="px-0 list-group-item">
-                    <div className="align-items-center row">
-                      <div className="col-auto col">
-                        <a className="avatar rounded-circle" href="#pablo"><img alt="..." src={require("../assets/img/theme/badili.jpg")}/></a>
-                      </div>
-                    <div className="col ml--2">
-                      <h4 className="mb-0">
-                        <a href="#pablo">John Michael</a>
-                      </h4>
-                      <span className="text-success">●</span>
-                      <small>Online</small>
-                    </div>
-                  <div className="col-auto col">
-                    <button type="button" className="btn btn-primary btn-sm">Add</button>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          
-      </CardBody>
-    </Card>
-  </Col>
+        <Col className="mb-5 mb-xl-0" xl="4">
+  <Card className="shadow">
+    <CardHeader className="border-0">
+      <h3 className="mb-0">Most Recent Projects</h3>
+    </CardHeader>
+    <CardBody>
+      <ul className="list my--3 list-group list-group-flush">
+        {/* Map over the projects array */}
+        {projects.map((project, index) => (
+          <li className="px-0 list-group-item" key={index}>
+            <div className="align-items-center row">
+              <div className="col-auto col">
+                {/* Use project theme image dynamically */}
+                <a className="avatar rounded-circle" href="#pablo">
+                  <img alt="Project Theme" src={project.theme} />
+                </a>
+              </div>
+              <div className="col ml--2">
+                {/* Use project name dynamically */}
+                <h4 className="mb-0">
+                  <a href="#pablo">{project.projectname}</a>
+                </h4>
+                {/* Check project mode and display appropriate status */}
+                <span className={`text-${project.mode === 'Open' ? 'success' : 'danger'}`}>●</span>
+                <small>{project.mode === 'Open' ? 'Online' : 'Modular'}</small>
+              </div>
+              <div className="col-auto col">
+                <button type="button" className="btn btn-primary btn-sm">view more</button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </CardBody>
+  </Card>
+</Col>
   <Col className="mb-5 mb-xl-0" xl="4">
     <Card className="shadow">
       <CardHeader className="border-0">
