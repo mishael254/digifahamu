@@ -6,7 +6,7 @@ import Chart from "chart.js";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
-
+import ProgressTrack from "variables/ProgressTrack";
 import {
   Button,
   Card,
@@ -49,6 +49,7 @@ const Index = ({statlogs}) => {
   const [activeNav, setActiveNav] = useState('monthly');
   const [chartExample1Data, setChartExample1Data] = useState("data1");
   const {members, feedbacks, deployments, messages, projects,statLogs, isLoading,playlists } = Api();
+  
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -289,85 +290,8 @@ const Index = ({statlogs}) => {
 </Col>
 
 
-
-  <Col className="mb-5 mb-xl-0" xl="4">
-    <Card className="shadow">
-      <CardHeader className="border-0">
-        <h3 className="mb-0">Progress track</h3>
-      </CardHeader>
-      <CardBody>
-        {/* Paste the provided Progress track card content here */}
-        
-      <ul className="list my--3 list-group list-group-flush">
-        <li className="px-0 list-group-item">
-          <div className="align-items-center row">
-            <div className="col-auto col">
-              <a className="avatar rounded-circle" href="#pablo">
-                <img alt="..." src={require("../assets/img/theme/badilisha.jpg")}/>
-              </a>
-            </div>
-            <div className="col">
-              <h5>Argon Design System</h5>
-              <div className="progress-xs mb-0 progress">
-                <div className="progress-bar bg-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: '60%'}}>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li className="px-0 list-group-item">
-          <div className="align-items-center row">
-            <div className="col-auto col">
-              <a className="avatar rounded-circle" href="#pablo">
-                <img alt="..." src={require("../assets/img/theme/bootstrap.jpg")}/>
-              </a>
-            </div>
-            <div className="col">
-              <h5>Angular Now UI Kit PRO</h5>
-              <div className="progress-xs mb-0 progress">
-                <div className="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: '100%'}}>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li className="px-0 list-group-item">
-          <div className="align-items-center row">
-            <div className="col-auto col">
-              <a className="avatar rounded-circle" href="#pablo">
-                <img alt="..." src={require("../assets/img/theme/digisinema.jpg")}/>
-              </a>
-            </div>
-          <div className="col">
-            <h5>Black Dashboard</h5>
-            <div className="progress-xs mb-0 progress">
-              <div className="progress-bar bg-danger" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style={{width: '72%'}}>
-              </div>
-            </div>
-          </div>
-          </div>
-        </li>
-        <li className="px-0 list-group-item">
-          <div className="align-items-center row">
-            <div className="col-auto col">
-              <a className="avatar rounded-circle" href="#pablo">
-                <img alt="..." src={require("../assets/img/theme/badili.jpg")}/>
-              </a>
-            </div>
-          <div className="col">
-            <h5>React Material Dashboard</h5>
-            <div className="progress-xs mb-0 progress">
-              <div className="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style={{width: '90%'}}>
-              </div>
-            </div>
-          </div>
-          </div>
-        </li>
-      </ul>
-      
-      </CardBody>
-    </Card>
-  </Col>
+<ProgressTrack/>
+ 
 </Row>
 
         {/**end of formated additional content */}
