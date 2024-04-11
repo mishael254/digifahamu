@@ -149,7 +149,7 @@ CREATE TABLE statlogs (
     id SERIAL PRIMARY KEY,
     messageUuid VARCHAR(255),
     messageTitle VARCHAR(255),
-    phone VARCHAR(255),
+    phone VARCHAR(20),
     firsttimeplayed TIMESTAMP,
     lasttimeplayed TIMESTAMP,
     numberoftimesplayed INTEGER,
