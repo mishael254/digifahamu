@@ -86,7 +86,7 @@ const ProgressTrack = () => {
                                             <span className="ml-3">{project.playlist?.deployment?.project?.projectName || 'No project name'}</span>
                                         </div>
                                     </td>
-                                    <td>{project.count}</td>
+                                    <td>{project.count} x</td>
                                     <td>
                                         <div className="progress-xs mb-0 progress">
                                             <div
