@@ -149,57 +149,71 @@ const Index = ({statlogs}) => {
 
         <Row className="mt-5">
         <Col className="mb-5 mb-xl-0" xl="4">
-  <Card className="shadow">
-    <CardHeader className="border-0">
-      <h3 className="mb-0">Most Recent Projects</h3>
-    </CardHeader>
-    <CardBody>
-      {/**Rendering the skeleton loading if isloading is true */}
-      {isLoading ?(
-        <div>
-          <Skeleton width={100} height={100} />
-          <Skeleton width={20} style={{ marginBottom: '10px' }}  />
-          <Skeleton count={4}/>
-        </div>
-      ):(
-        <ul className="list my--3 list-group list-group-flush">
-        {/* Map over the projects array */}
-        {projects.map((project, index) => (
-          <li className="px-0 list-group-item" key={index}>
-            <div className="align-items-center row">
-              <div className="col-auto col">
-                {/* Use project theme image dynamically */}
-                <a className="avatar rounded-circle" href="#pablo">
-                  <img 
-                  alt="Project Theme" 
-                  src={project.theme}
-                  className="img-fluid rounded-circle" 
-                  style={{ width: '40px', height: '40px' }} 
-                  />
-                </a>
-              </div>
-              <div className="col ml--2">
-                {/* Use project name dynamically */}
-                <h4 className="mb-0">
-                  <a href="#pablo">{project.projectname}</a>
-                </h4>
-                {/* Check project mode and display appropriate status */}
-                <span className={`text-${project.mode === 'Open' ? 'success' : 'danger'}`}>●</span>
-                <small>{project.mode === 'Open' ? 'Online' : 'Modular'}</small>
-              </div>
-              <div className="col-auto col">
-                <button type="button" className="btn btn-primary btn-sm">view more</button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+          <Card className="shadow">
+            <CardHeader className="border-0">
+              <Row className="align-items-center">
+                <div className="col">
+                  <h3 className="mb-0">Most Recent Projects</h3>
+                </div>
+                <div className="col text-right">
+                  <Button
+                    color="primary"
+                    href="#pablo"
+                    onClick={(e) => e.preventDefault()}
+                    size="sm"
+                    >
+                    See all
+                  </Button>
+                </div>
+              </Row>
+            </CardHeader>
+            <CardBody>
+              {/**Rendering the skeleton loading if isloading is true */}
+              {isLoading ?(
+                <div>
+                  <Skeleton width={100} height={100} />
+                  <Skeleton width={20} style={{ marginBottom: '10px' }}  />
+                  <Skeleton count={4}/>
+                </div>
+              ):(
+                <ul className="list my--3 list-group list-group-flush">
+                {/* Map over the projects array */}
+                {projects.map((project, index) => (
+                  <li className="px-0 list-group-item" key={index}>
+                    <div className="align-items-center row">
+                      <div className="col-auto col">
+                        {/* Use project theme image dynamically */}
+                        <a className="avatar rounded-circle" href="#pablo">
+                          <img 
+                          alt="Project Theme" 
+                          src={project.theme}
+                          className="img-fluid rounded-circle" 
+                          style={{ width: '40px', height: '40px' }} 
+                          />
+                        </a>
+                      </div>
+                      <div className="col ml--2">
+                        {/* Use project name dynamically */}
+                        <h4 className="mb-0">
+                          <a href="#pablo">{project.projectname}</a>
+                        </h4>
+                        {/* Check project mode and display appropriate status */}
+                        <span className={`text-${project.mode === 'Open' ? 'success' : 'danger'}`}>●</span>
+                        <small>{project.mode === 'Open' ? 'Online' : 'Modular'}</small>
+                      </div>
+                      <div className="col-auto col">
+                        <button type="button" className="btn btn-primary btn-sm">view more</button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
 
-      )}
-      
-    </CardBody>
-  </Card>
-</Col>
+              )}
+              
+            </CardBody>
+          </Card>
+        </Col>
 <Col className="mb-5 mb-xl-0" xl="4">
   <Card className="shadow">
     <CardHeader className="border-0">
