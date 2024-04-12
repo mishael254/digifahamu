@@ -170,7 +170,12 @@ const Index = ({statlogs}) => {
               <div className="col-auto col">
                 {/* Use project theme image dynamically */}
                 <a className="avatar rounded-circle" href="#pablo">
-                  <img alt="Project Theme" src={project.theme} />
+                  <img 
+                  alt="Project Theme" 
+                  src={project.theme}
+                  className="img-fluid rounded-circle" 
+                  style={{ width: '40px', height: '40px' }} 
+                  />
                 </a>
               </div>
               <div className="col ml--2">
