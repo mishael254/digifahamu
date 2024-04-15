@@ -81,26 +81,39 @@ const Index = ({statlogs}) => {
                       <NavItem>
                         <NavLink
                           className={classnames("py-2 px-3", {
-                            active: activeNav === 'monthly',
+                            active: activeNav === 1,
                           })}
                           href="#pablo"
-                          onClick={(e) => toggleNavs(e, 'monthly')}
+                          onClick={(e) => toggleNavs(e, 1)}
                         >
-                          <span className="d-none d-md-block">Month</span>
+                          <span className="d-none d-md-block">Monthly</span>
                           <span className="d-md-none">M</span>
                         </NavLink>
                       </NavItem>
                       <NavItem>
                         <NavLink
                           className={classnames("py-2 px-3", {
-                            active: activeNav === 'weekly',
+                            active: activeNav === 2,
                           })}
                           data-toggle="tab"
                           href="#pablo"
-                          onClick={(e) => toggleNavs(e, 'weekly')}
+                          onClick={(e) => toggleNavs(e, 2)}
                         >
-                          <span className="d-none d-md-block">Week</span>
+                          <span className="d-none d-md-block">Weekly</span>
                           <span className="d-md-none">W</span>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink
+                          className={classnames("py-2 px-3", {
+                            active: activeNav === 3,
+                          })}
+                          data-toggle="tab"
+                          href="#pablo"
+                          onClick={(e) => toggleNavs(e, 3)}
+                        >
+                          <span className="d-none d-md-block">daily</span>
+                          <span className="d-md-none">D</span>
                         </NavLink>
                       </NavItem>
                     </Nav>
@@ -110,7 +123,7 @@ const Index = ({statlogs}) => {
               <CardBody>
                 {/* Chart */}
                 <div className="chart">
-                <MessagePopularity statLogs={statLogs} activeInterval={activeNav} />
+                <MessagePopularity statLogs={statLogs} activeNav={activeNav}/>
                 </div>
               </CardBody>
             </Card>
