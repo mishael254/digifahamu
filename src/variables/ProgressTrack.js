@@ -25,12 +25,17 @@ const ProgressTrack = () => {
     const recurringMessages = Object.keys(messageCounts)
         .filter(messageUuid => messageCounts[messageUuid] > 1);
 
-    // Find the corresponding project information for recurring messages
-    const projectInfo = recurringMessages.map(messageUuid => {
+    // Group recurring messages by project name
+    const groupedMessages = recurringMessages.reduce((groups, messageUuid) => {
         const message = messages.find(message => message.messageuuid === messageUuid);
-        const count = messageCounts[messageUuid];
-        return { ...message, count };
-    });
+        const projectName = message?.playlist?.deployment?.project?.projectName || 'No project name';
+        const projectTheme = message?.playlist?.deployment?.project?.theme || 'No project theme';
+        if (!groups[projectName]) {
+            groups[projectName] = { messages: [], theme: projectTheme };
+        }
+        groups[projectName].messages.push({ messageUuid, count: messageCounts[messageUuid] });
+        return groups;
+    }, {});
 
     return (
         <Col className="mb-5 mb-xl-0" xl="4">
@@ -57,6 +62,7 @@ const ProgressTrack = () => {
                         <tr>
                             <th scope="col">Project</th>
                             <th scope="col">Messages</th>
+                            <th scope="col">Total Messages listened</th>
                             <th scope="col">Progress</th>
                         </tr>
                     </thead>
@@ -64,29 +70,35 @@ const ProgressTrack = () => {
                         {isLoading ? (
                             // Render skeleton loading if data is loading
                             <tr>
-                                <td colSpan="3">
+                                <td colSpan="4">
                                     <Skeleton height={100} count={4} />
                                 </td>
                             </tr>
                         ) : (
-                            // Map over projectInfo to generate table rows dynamically
-                            projectInfo.map((project, index) => (
+                            // Map over groupedMessages to generate table rows dynamically
+                            Object.entries(groupedMessages).map(([projectName, { messages, theme }], index) => (
                                 <tr key={index}>
                                     <td>
                                         <div className="d-flex align-items-center">
                                             <a className="avatar rounded-circle" href="#pablo">
                                                 <img 
-                                                    src={project.playlist?.deployment?.project?.theme} 
+                                                    src={theme} 
                                                     alt="Project Theme" 
                                                     className="img-fluid rounded-circle" 
                                                     style={{ width: '40px', height: '40px' }} 
                                                 />
                                             </a>
-                                            <span className="ml-3">{project.messageuuid || 'No Message uuid'}</span>
-                                            <span className="ml-3">{project.playlist?.deployment?.project?.projectName || 'No project name'}</span>
+                                            <span className="ml-3">{projectName}</span>
                                         </div>
                                     </td>
-                                    <td>{project.count} x</td>
+                                    <td>
+                                        {messages.map((message, messageIndex) => (
+                                            <div key={messageIndex}>
+                                                {message.messageUuid} ({message.count} x)
+                                            </div>
+                                        ))}
+                                    </td>
+                                    <td>{messages.length}</td>
                                     <td>
                                         <div className="progress-xs mb-0 progress">
                                             <div
@@ -104,7 +116,7 @@ const ProgressTrack = () => {
                         )}
                     </tbody>
                 </Table>
-                {!isLoading && projectInfo.length === 0 && (
+                {!isLoading && Object.keys(groupedMessages).length === 0 && (
                     <CardBody>No recurring projects found.</CardBody>
                 )}
             </Card>
