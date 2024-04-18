@@ -15,12 +15,25 @@ const ProgressTrack = () => {
 
     const { statLogs, isLoading, messages } = Api();
     //count each message in messages
+    const totalAllMessagesCount =messages.length;
 
     //group the messages by project name
+    
+    const groupAllMessagesToProjects = messages.reduce((groupsA, message) => {
+        const projectNameForMessages = message?.playlist?.deployment?.project?.projectName || 'No project name';
+        if (!groupsA[projectNameForMessages]) {
+            groupsA[projectNameForMessages] = [];
+        }
+        groupsA[projectNameForMessages].push(message);
+        return groupsA;
+    }, {});
 
     //count now the messages for each project
-
-    //update the progress with the value that you had gotten above after counting the messages for each project and convert it to percentage
+    
+    const projectAllMessageCounts = Object.keys(groupAllMessagesToProjects).reduce((counts, projectNameForMessages) => {
+        counts[projectNameForMessages] = groupAllMessagesToProjects[projectNameForMessages].length;
+        return counts;
+    }, {});
 
     
     /***starting from here is okay dont touch here  */
@@ -87,7 +100,8 @@ const ProgressTrack = () => {
                             Object.entries(groupedMessages).map(([projectName, messages], index) => {
                                 const totalUniqueMessages = messages.length; // Total unique messages for the project
                                 const totalMessagesListened = messages.reduce((acc, msg) => acc + msg.count, 0); // Total messages listened for the project
-                                const progress = (totalMessagesListened / totalUniqueMessages) * 100; // Calculate progress percentage
+                                const progress = (totalUniqueMessages / totalAllMessagesCount) * 100; // Calculate progress percentage
+                                console.log("progress == ",progress)
 
                                 return (
                                     <tr key={index}>
