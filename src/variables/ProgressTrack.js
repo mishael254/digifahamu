@@ -14,9 +14,11 @@ import Api from 'views/dataviews/reduximplementation/Api';
 const ProgressTrack = () => {
 
     const { statLogs, isLoading, messages } = Api();
-    //count all messages
+    //count all messages in message object
     const totalAllMessagesCount =messages.length;
+    /**will try to implement the count for every projectname in future */
 
+    
     // Count occurrences of each messageUuid
     const messageCounts = statLogs.reduce((counts, log) => {
         counts[log.messageuuid] = (counts[log.messageuuid] || 0) + 1;
