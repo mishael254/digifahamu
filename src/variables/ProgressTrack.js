@@ -14,6 +14,8 @@ import Api from 'views/dataviews/reduximplementation/Api';
 const ProgressTrack = () => {
 
     const { statLogs, isLoading, messages } = Api();
+    //count all messages
+    const totalAllMessagesCount =messages.length;
 
     // Count occurrences of each messageUuid
     const messageCounts = statLogs.reduce((counts, log) => {
@@ -77,6 +79,7 @@ const ProgressTrack = () => {
                         ) : (
                             // Map over groupedMessages to generate table rows dynamically
                             Object.entries(groupedMessages).map(([projectName, { messages, theme }], index) => (
+                                
                                 <tr key={index}>
                                     <td>
                                         <div className="d-flex align-items-center">
@@ -104,10 +107,10 @@ const ProgressTrack = () => {
                                             <div
                                                 className="progress-bar bg-orange"
                                                 role="progressbar"
-                                                aria-valuenow="60"
+                                                aria-valuenow={messages.length/totalAllMessagesCount*100}
                                                 aria-valuemin="0"
                                                 aria-valuemax="100"
-                                                style={{ width: '60%' }}
+                                                style={{ width: `${messages.length/totalAllMessagesCount*100}%` }}
                                             ></div>
                                         </div>
                                     </td>
