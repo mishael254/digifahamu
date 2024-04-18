@@ -14,29 +14,7 @@ import Api from 'views/dataviews/reduximplementation/Api';
 const ProgressTrack = () => {
 
     const { statLogs, isLoading, messages } = Api();
-    //count each message in messages
-    const totalAllMessagesCount =messages.length;
 
-    //group the messages by project name
-    
-    const groupAllMessagesToProjects = messages.reduce((groupsA, message) => {
-        const projectNameForMessages = message?.playlist?.deployment?.project?.projectName || 'No project name';
-        if (!groupsA[projectNameForMessages]) {
-            groupsA[projectNameForMessages] = [];
-        }
-        groupsA[projectNameForMessages].push(message);
-        return groupsA;
-    }, {});
-
-    //count now the messages for each project
-    
-    const projectAllMessageCounts = Object.keys(groupAllMessagesToProjects).reduce((counts, projectNameForMessages) => {
-        counts[projectNameForMessages] = groupAllMessagesToProjects[projectNameForMessages].length;
-        return counts;
-    }, {});
-
-    
-    /***starting from here is okay dont touch here  */
     // Count occurrences of each messageUuid
     const messageCounts = statLogs.reduce((counts, log) => {
         counts[log.messageuuid] = (counts[log.messageuuid] || 0) + 1;
@@ -51,10 +29,11 @@ const ProgressTrack = () => {
     const groupedMessages = recurringMessages.reduce((groups, messageUuid) => {
         const message = messages.find(message => message.messageuuid === messageUuid);
         const projectName = message?.playlist?.deployment?.project?.projectName || 'No project name';
+        const projectTheme = message?.playlist?.deployment?.project?.theme || 'No project theme';
         if (!groups[projectName]) {
-            groups[projectName] = [];
+            groups[projectName] = { messages: [], theme: projectTheme };
         }
-        groups[projectName].push({ messageUuid, count: messageCounts[messageUuid] });
+        groups[projectName].messages.push({ messageUuid, count: messageCounts[messageUuid] });
         return groups;
     }, {});
 
@@ -97,38 +76,43 @@ const ProgressTrack = () => {
                             </tr>
                         ) : (
                             // Map over groupedMessages to generate table rows dynamically
-                            Object.entries(groupedMessages).map(([projectName, messages], index) => {
-                                const totalUniqueMessages = messages.length; // Total unique messages for the project
-                                const totalMessagesListened = messages.reduce((acc, msg) => acc + msg.count, 0); // Total messages listened for the project
-                                const progress = (totalUniqueMessages / totalAllMessagesCount) * 100; // Calculate progress percentage
-                                console.log("progress == ",progress)
-
-                                return (
-                                    <tr key={index}>
-                                        <td>{projectName}</td>
-                                        <td>
-                                            {messages.map((message, messageIndex) => (
-                                                <div key={messageIndex}>
-                                                    {message.messageUuid} ({message.count} x)
-                                                </div>
-                                            ))}
-                                        </td>
-                                        <td>{totalUniqueMessages}</td>
-                                        <td>
-                                            <div className="progress-xs mb-0 progress">
-                                                <div
-                                                    className="progress-bar bg-orange"
-                                                    role="progressbar"
-                                                    aria-valuenow={progress}
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                    style={{ width: `${progress}%` }}
-                                                ></div>
+                            Object.entries(groupedMessages).map(([projectName, { messages, theme }], index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <div className="d-flex align-items-center">
+                                            <a className="avatar rounded-circle" href="#pablo">
+                                                <img 
+                                                    src={theme} 
+                                                    alt="Project Theme" 
+                                                    className="img-fluid rounded-circle" 
+                                                    style={{ width: '40px', height: '40px' }} 
+                                                />
+                                            </a>
+                                            <span className="ml-3">{projectName}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {messages.map((message, messageIndex) => (
+                                            <div key={messageIndex}>
+                                                {message.messageUuid} ({message.count} x)
                                             </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })
+                                        ))}
+                                    </td>
+                                    <td>{messages.length}</td>
+                                    <td>
+                                        <div className="progress-xs mb-0 progress">
+                                            <div
+                                                className="progress-bar bg-orange"
+                                                role="progressbar"
+                                                aria-valuenow="60"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style={{ width: '60%' }}
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
                         )}
                     </tbody>
                 </Table>
