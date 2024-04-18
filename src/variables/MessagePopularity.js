@@ -1,80 +1,70 @@
-// MessagePopularity.js
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import Api from "views/dataviews/reduximplementation/Api";
+import { chartOptions } from "./charts";
 
-import React from 'react';
-import Chart from 'chart.js';
+const MessagePopularity = () => {
+    const { statLogs, isLoading, messages } = Api();
+  // State to store chart data
 
-const MessagePopularity = ({ statLogs, activeNav }) => {
-    // Group the stat logs by message UUID to count the number of unique phone numbers associated with each message
-    const messagePopularity = statLogs.reduce((popularityMap, log) => {
-        if (!popularityMap[log.messageUuid]) {
-            popularityMap[log.messageUuid] = new Set();
-        }
-        popularityMap[log.messageUuid].add(log.phone);
-        return popularityMap;
-    }, {});
 
-    // Sort messages based on popularity
-    const sortedMessages = Object.entries(messagePopularity).sort((a, b) => {
-        return b[1].size - a[1].size;
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Message Popularity",
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: "rgba(29,140,248,0.2)",
+        borderColor: "#1f8ef1",
+        borderWidth: 2,
+        data: [],
+      },
+    ],
+  });
+
+  useEffect(() => {
+    // Group and sort statLogs by messageUuid
+    const sortedStatLogs = {};
+    statLogs.forEach((log) => {
+      if (!sortedStatLogs[log.messageuuid]) {
+        sortedStatLogs[log.messageuuid] = [];
+      }
+      sortedStatLogs[log.messageuuid].push(log.phone);
     });
 
-    // Prepare data for chart
-    const chartData = {
-        labels: sortedMessages.map(([messageUuid, phoneNumbers]) => messageUuid),
-        datasets: [{
-            label: 'Message Popularity',
-            data: sortedMessages.map(([_, phoneNumbers]) => phoneNumbers.size),
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust color as needed
-            borderColor: 'rgba(75, 192, 192, 1)', // Adjust color as needed
-            borderWidth: 1
-        }]
-    };
+    // Iterate through sortedStatLogs and extract messageTitle and count unique phones
+    const xAxisLabels = [];
+    const yAxisData = [];
+    Object.keys(sortedStatLogs).forEach((uuid) => {
+      const message = messages.find((msg) => msg.messageuuid === uuid);
+      if (message) {
+        xAxisLabels.push(message.messagetitle);
+        yAxisData.push(new Set(sortedStatLogs[uuid]).size);
+      }
+    });
+    
+    // Update chart data state
+    setChartData((prevData) => ({
+      ...prevData,
+      labels: xAxisLabels,
+      datasets: [
+        {
+          ...prevData.datasets[0],
+          data: yAxisData,
+          
+        },
+      ],
+    }));
+  }, [statLogs, messages]);
 
-    // Define time options for the x-axis
-    const timeOptions = {
-        unit: 'day',
-        displayFormats: {
-            day: 'MMMM' // Default to month format
-        }
-    };
+  
 
-    // Adjust time options based on activeNav
-    if (activeNav === 2) {
-        timeOptions.unit = 'day';
-        timeOptions.displayFormats = {
-            day: 'dddd' // Week format
-        };
-    } else if (activeNav === 3) {
-        timeOptions.unit = 'hour';
-        timeOptions.displayFormats = {
-            hour: 'HH:00' // Day format
-        };
-    }
-
-    // Render the chart
-    React.useEffect(() => {
-        if (window.Chart) {
-            const ctx = document.getElementById('messagePopularityChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-                options: {
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: timeOptions // Use time options here
-                        }
-                    }
-                }
-            });
-        }
-    }, [chartData, activeNav]);
-
-    return (
-        <div>
-            <canvas id="messagePopularityChart"></canvas>
-        </div>
-    );
+  return (
+    <div className="chart">
+      <Line data={chartData} options={chartOptions()} />
+    </div>
+  );
 };
 
 export default MessagePopularity;

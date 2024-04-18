@@ -41,6 +41,7 @@ import {
   chartExample2,
 } from "variables/charts.js";
 //message data imports
+import DeploymentLineGraph from "variables/DeploymentsGraph";
 import MessagePopularity from "variables/MessagePopularity";
 import Skeleton from 'react-loading-skeleton';
 import Header from "components/Headers/Header.js";
@@ -134,19 +135,16 @@ const Index = ({statlogs}) => {
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Message Play Duration Distribution
+                      Message Deployment Distribution
                     </h6>
-                    <h2 className="mb-0">Total Play distribution</h2>
+                    <h2 className="mb-0">Total Deployments distribution</h2>
                   </div>
                 </Row>
               </CardHeader>
               <CardBody>
                 {/* Chart */}
                 <div className="chart">
-                  <Bar
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
+                  <DeploymentLineGraph/>
                 </div>
               </CardBody>
             </Card>
