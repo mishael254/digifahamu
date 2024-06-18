@@ -12,55 +12,84 @@ import Skeleton from 'react-loading-skeleton';
 import Api from 'views/dataviews/reduximplementation/Api';
 
 const ActivityFeedTab = () => {
-    const {statlogs, messages, feedbacks, playlists, isLoading} = Api();
+    const {statLogs, messages, feedbacks, playlists, isLoading} = Api();
+
+    // Function to count unique phone numbers in statlogs based on messageUuid
+    const countUniquePhones = (messageuuid) => {
+        const filteredStatlogs = statLogs.filter(log => log.messageuuid === messageuuid);
+        const uniquePhones = new Set(filteredStatlogs.map(log => log.phone));
+        return uniquePhones.size;
+    };
+
+    // Function to count unique phones in feedbacks based on messageUuid
+    const countUniqueFeedbackPhones = (messageuuid) => {
+        const filteredFeedbacks = feedbacks.filter(feedback => feedback.messageuuid === messageuuid);
+        const uniquePhones = new Set(filteredFeedbacks.map(feedback => feedback.phone));
+        return uniquePhones.size;
+    };
 
     return (
         <div>
-            <Col className="mb-5 mb-xl-0" xl="5">
-                <Card className="shadow">
-                    <CardHeader className="border-0">
-                        <h3 className="mb-0">Activity feed</h3>
-                    </CardHeader>
-                    <CardBody>
-                        <div className="d-flex align-items-center card-header">
-                        <div className="d-flex align-items-center">
-                            <a href="#pablo">
-                            <img alt="..." className="avatar" src={require("../assets/img/theme/angular.jpg")}/>
-                            </a>
-                            <div className="mx-3">
-                            <a className="text-dark font-weight-600 text-sm" href="#pablo">John Snow</a>
-                            <small className="d-block text-muted">3 days ago</small>
+            {playlists.map((playlist, index) => (
+                <Col key={index} className="mb-5 mb-xl-0" xl="5">
+                    <Card className="shadow">
+                        <CardHeader className="border-0">
+                            <h3 className="mb-0">Activity feed</h3>
+                        </CardHeader>
+                        <CardBody>
+                            <div className="d-flex align-items-center card-header">
+                            <div className="d-flex align-items-center">
+                                <a href="#pablo">
+                                    <img alt="..." className="img-fluid rounded" src={playlist.deployment.thumbnail}/>
+                                </a>
+                                <div className="mx-3">
+                                    <a className="text-dark font-weight-600 text-sm" href="#pablo">{playlist.title}</a>
+                                    <small className="d-block text-muted">3 days ago</small>
+                                </div>
                             </div>
-                        </div>
-                        <div className="text-right ml-auto">
+                            <div className="text-right ml-auto">
                             <button type="button" className="btn-icon btn btn-primary btn-sm">
                             <span className="btn-inner--icon mr-1">
                                 <i className="ni ni-fat-add"></i>
                             </span>
                             <span className="btn-inner--text">Follow</span>
                             </button>
-                        </div>
-                        </div>
-                        <div className="card-body">
-                        <p className="mb-4">Personal profiles are the perfect way for you to grab their attention and persuade recruiters to continue reading your CV because you’re telling them from the off exactly why they should hire you.</p>
-                        <img alt="..." className="img-fluid rounded" src={require("../assets/img/theme/textme.jpg")}/>
-                        <div className="align-items-center my-3 pb-3 border-bottom row">
-                            <div className="col-sm-6">
-                            <div className="icon-actions">
-                                <a className="like active" href="#pablo">
-                                <i className="ni ni-like-2"></i>
-                                <span className="text-muted">150</span>
-                                </a>
-                                <a href="#pablo">
-                                <i className="ni ni-chat-round"></i>
-                                <span className="text-muted">36</span>
-                                </a>
-                                <a href="#pablo">
-                                <i className="ni ni-curved-next"></i>
-                                <span className="text-muted">12</span>
-                                </a>
                             </div>
                             </div>
+                            <div className="card-body">
+                            <p className="mb-4">{playlist.title}</p><hr/>  
+                            {/* Render messages related to this playlist */}
+                            {messages.map((message, index) => {
+                                if (message.playlist.id === playlist.id) {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <p className="mb-4">{message.messageTitle} </p><hr/>
+                                            <p className="mb-4"> {message.messagedescription}</p>
+                                            <img alt="..." className="img-fluid rounded" src={message.messagefile}/>
+                                            <div className="align-items-center my-3 pb-3 border-bottom row">
+                                            <div className="col-sm-6">
+                                            <div className="icon-actions">
+                                            <a className="like active" href="#pablo">
+                                            <i className="ni ni-like-2"></i>
+                                                {/* Count unique phones in statlogs */}
+                                                <span className="text-muted">{countUniquePhones(message.messageuuid)}</span>
+                                                </a>
+                                                <a href="#pablo">
+                                                <i className="ni ni-chat-round"></i>
+                                                {/* Count unique phones in feedbacks */}
+                                                <span className="text-muted">{countUniqueFeedbackPhones(message.messageuuid)}</span>
+                                                </a>
+                                                <a href="#pablo">
+                                                <i className="ni ni-curved-next"></i>
+                                                <span className="text-muted">12</span>
+                                                </a>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    );
+                                }
+                            })}
                             <div className="d-none d-sm-block col-sm-6">
                             <div className="d-flex align-items-center justify-content-sm-end">
                                 <div className="avatar-group">
@@ -74,7 +103,12 @@ const ActivityFeedTab = () => {
                                     <img alt="..." className="rounded-circle" src={require("../assets/img/theme/cbcc.jpg")}/>
                                 </a>
                                 </div>
-                                <small className="pl-2 font-weight-bold">and 30+ more</small>
+                                {/* Render remaining messages in playlist */}
+                            {messages.filter(message => message.playlist.id === playlist.id).length > 3 && (
+                                <small className="pl-2 font-weight-bold">
+                                    and {messages.filter(message => message.playlist.id === playlist.id).length - 3} more
+                                </small>
+                            )}
                             </div>
                             </div>
                         </div>
@@ -127,15 +161,14 @@ const ActivityFeedTab = () => {
                             </div>
                             </div>
                         </div>
-                        </div>
-                    </CardBody>
-                </Card>
-            </Col>
+                        
+                            
+                        </CardBody>
+                    </Card>
+                </Col>
+            ))}
         </div>
-
     );
-
-
-}
+};
 
 export default ActivityFeedTab;
