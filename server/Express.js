@@ -19,13 +19,13 @@ const postgresConfig = {
 const db = pgp(postgresConfig);
 
 const endpoints = [
-  { path: '/api/getMembers', table: 'members', apiEndpoint: 'http://tathmini.live/api/member-details/' },
-  { path: '/api/getFeedbacks', table: 'feedbacks', apiEndpoint: 'http://tathmini.live/api/feedback/' },
-  { path: '/api/getDeployments', table: 'deployments', apiEndpoint: 'http://tathmini.live/api/deployments/' },
-  { path: '/api/getStatlog', table: 'statlogs', apiEndpoint: 'http://tathmini.live/api/statlog/' },
-  { path: '/api/getMessages', table: 'messages', apiEndpoint: 'http://tathmini.live/api/messages/' },
-  { path: '/api/getPlaylist', table: 'playlists', apiEndpoint: 'http://tathmini.live/api/playlists/' },
-  { path: '/api/getProjects', table: 'projects', apiEndpoint: 'http://tathmini.live/api/projects/' },
+  { path: '/api/getMembers', table: 'members', apiEndpoint: 'https://digifahamu.com/api/member-details/' },
+  { path: '/api/getFeedbacks', table: 'feedbacks', apiEndpoint: 'https://digifahamu.com/api/feedback/' },
+  { path: '/api/getDeployments', table: 'deployments', apiEndpoint: 'https://digifahamu.com/api/deployments/' },
+  { path: '/api/getStatlog', table: 'statlogs', apiEndpoint: 'https://digifahamu.com/api/statlog/' },
+  { path: '/api/getMessages', table: 'messages', apiEndpoint: 'https://digifahamu.com/api/messages/' },
+  { path: '/api/getPlaylist', table: 'playlists', apiEndpoint: 'https://digifahamu.com/api/playlists/' },
+  { path: '/api/getProjects', table: 'projects', apiEndpoint: 'https://digifahamu.com/api/projects/' },
 ];
 
 endpoints.forEach(endpoint => {
